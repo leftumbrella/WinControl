@@ -9,6 +9,10 @@ Controlled::Controlled(QWidget *parent) : QMainWindow(parent){
 
     timer_ptr->start(flush_ms);
 
+    
+    _net.Initialize("192.168.1.18");
+
+
 }
 void Controlled::FlushNowVolume() {
     ui.LB_volume_now->setText(QString::number(WinUtils::Volume()));

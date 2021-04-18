@@ -21,29 +21,43 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="Controlled.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="Controlled.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="Controlled.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Filter Include="UI">
+      <UniqueIdentifier>{c62df7c5-5349-4243-8151-d73abf6369ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{a2482144-4906-44cd-a24d-992248d48a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Controlled.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
     <ClCompile Include="WinUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Net.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WinUtils.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Net.h">
+      <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="WinUtils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Controlled.h">
+      <Filter>UI</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Controlled.ui">
+      <Filter>UI</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

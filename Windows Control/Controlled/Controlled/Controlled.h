@@ -1,6 +1,8 @@
-#pragma once
+#ifndef LEFTUMBRELLA_WINCONTROL_CONTROLLED_CONTROLLED_H_
+#define LEFTUMBRELLA_WINCONTROL_CONTROLLED_CONTROLLED_H_
 
 #include "WinUtils.h"
+#include "Net.h"
 #include <QtCore/Qtimer>
 #include <ctime>
 #include <QtWidgets/QMainWindow>
@@ -25,4 +27,8 @@ private slots:
 
 private:
     Ui::ControlledClass ui;
+
+    Net _net;
 };
+
+#endif
