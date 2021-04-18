@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Controller</string>
+    <string name="btn_start_net">开始连接</string>
+</resources>
