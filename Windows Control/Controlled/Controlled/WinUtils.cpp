@@ -1,9 +1,13 @@
 #include "WinUtils.h"
 
-
 unsigned int WinUtils::Volume(){
     HRESULT is_ok = E_FAIL;
     IMMDeviceEnumerator* device_enumerator_ptr = nullptr;
+    is_ok = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    if (FAILED(is_ok)) {
+        return 105;
+    }
+
     is_ok = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&device_enumerator_ptr);
     if (FAILED(is_ok)) {
         return 101;
