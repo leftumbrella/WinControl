@@ -61,7 +61,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(BoostDir)include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(BoostDir)lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(BoostDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(BoostDir)lib</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -90,6 +103,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CmdCore.cpp" />
+    <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Net.cpp" />
     <ClCompile Include="WinUtils.cpp" />
     <QtUic Include="Controlled.ui" />
@@ -98,8 +113,21 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CmdCore.h" />
+    <ClInclude Include="CmdStructs.h" />
+    <ClInclude Include="Kernel.h" />
     <ClInclude Include="Net.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WinUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="..\Controlled.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Controlled.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="D:\Pictures\Umbrella\icon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

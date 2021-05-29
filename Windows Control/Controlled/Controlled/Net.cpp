@@ -1,16 +1,24 @@
 #include "Net.h"
 
-Net::Net():_is_receiving(false), _isRunSend(false) ,_sock_recv(0),_sock_send(0) , _isRunRecv(false){
-    
+Net::Net():_is_listening(false) ,_sock_recv(0),_sock_send(0) , _isRunRecv(false){
+    _isRunRecv = true;
+    _t_recv = std::thread(&Net::RecvData, this);
 }
 
-Net::~Net(){    
-    if (_is_receiving) {
+Net::~Net(){
+    if (_is_listening) {
+        _is_listening = false;
         //终止 DLL 的使用
         _WINSOCK2API_::WSACleanup();
-        _is_receiving = false;
-        _t_receive.join();
+        _t_listen.join();
     }
+
+    //接收数据线程结束
+    _isRunRecv = false;
+    _t_recv.join();
+
+    //等待线程池结束
+    _TP.join_all();
 }
 
 bool Net::Initialize(unsigned short port_num){
@@ -47,58 +55,69 @@ bool Net::Initialize(unsigned short port_num){
         _WINSOCK2API_::WSACleanup();
         return false;
     }
+    
 
-    _is_receiving = true;
-    _t_receive = std::thread(&Net::Receive, this);
+    //开始监听移动端的连接命令
+    _is_listening = true;
+    _t_listen = std::thread(&Net::Listen, this);
 
     return true;
 }
 
-void Net::Receive(){
-    while (_is_receiving) {
-        if (!_sock_recv) {
-            continue;
-        }
+bool Net::ReadNetCommand(CmdCore& cmd_core){
+    if (_command.empty()) {
+        return false;
+    }
+
+    _lock_command.lock();
+    cmd_core = _command.front();
+    _command.pop();
+    _lock_command.unlock();
+
+    return true;
+}
+
+Net& Net::Send(const std::string& send_str){
+    if (_sock_send) {
+        _WINSOCK2API_::send(_sock_send, send_str.c_str(), send_str.size()*sizeof(char), NULL);
+    }
+    return *this;
+}
+
+Net& Net::Send(const char* send_cstr){
+    if (_sock_send) {
+        _WINSOCK2API_::send(_sock_send, send_cstr, Max_Net_Size, NULL);
+    }
+    return *this;
+}
+
+void Net::Listen(){
+    while (_is_listening) {
+        //监听移动端连接
         SOCKADDR clntAddr;
         int nSize = sizeof(SOCKADDR);
         _sock_send = _WINSOCK2API_::accept(_sock_recv, (SOCKADDR*)&clntAddr, &nSize);
-        if (!_isRunRecv) {
-            _isRunRecv = true;
-            _t_recv = std::thread(&Net::RecvData, this);
-        }
     }
     
 }
 
-
-void Net::SendVolume(){
-        if (_sock_send) {
-            unsigned int now_volume = WinUtils::Volume();
-            std::stringstream ss_str;
-            ss_str << "Volume::" << now_volume;
-            int a = _WINSOCK2API_::send(_sock_send, ss_str.str().c_str(), strlen(ss_str.str().c_str()) * sizeof(char), NULL);
-        }
-}
-
 void Net::RecvData(){
     while (_isRunRecv) {
-        if (_sock_send) {
-            char recv_data[512];
-            int length = _WINSOCK2API_::recv(_sock_send, recv_data, 512, NULL);
-            if (length > 0) {
-                std::string str_command = recv_data;
-                if (str_command == "Volume") {
-                    SendVolume();
-                }else if (str_command == "Volume plus") {
-                    WinUtils::Volume(WinUtils::Volume() + 1);
-                }else if (str_command == "Volume less") {
-                    WinUtils::Volume(WinUtils::Volume() - 1);
-                }
-            }
+        if (!_sock_recv) {
+            Sleep(Wait_Net_Time_Ms);
+            continue;
+        }
+        char recv_data[Max_Net_Size+1];
+        
+        int length = _WINSOCK2API_::recv(_sock_send, recv_data, Max_Net_Size, NULL);
+        if (length > 0) {
+            //使用
+            recv_data[Max_Net_Size] = '\0';
+            //保存当前移动端命令
+            _TP.create_thread(boost::bind(&Net::CommandAnsy, this , std::move(recv_data)));
         }
     }
 }
-
 std::string Net::GetIpV4() const{
 
     std::string ipv4_str;
@@ -125,4 +144,22 @@ std::string Net::GetIpV4() const{
         ipv4_str = _WINSOCK2API_::inet_ntoa(address);
     }
     return ipv4_str;
+}
+
+void Net::CommandAnsy(const std::string& cmd_str){
+
+    std::vector<std::string> cmd_strs;
+    //使用"/"将网络字符串分隔开来
+    boost::split(cmd_strs, cmd_str, boost::is_any_of("/") );
+    //忽略莫名其妙的网络包
+    if (cmd_strs.size() != 2) {
+        return;
+    }
+    //去除网络数据尾部空格
+    std::string cmd_data_str = cmd_strs.back().empty() ? "" : boost::trim_copy(cmd_strs.back());
+
+    //安插至队列中
+    _lock_command.lock();
+    _command.push(std::move(CmdCore(cmd_strs.front() ,cmd_data_str)));
+    _lock_command.unlock();
 }

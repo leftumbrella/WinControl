@@ -20,6 +20,8 @@
         android:id="@+id/TV_volume"
         android:layout_width="123dp"
         android:layout_height="52dp"
+        android:textSize="45sp"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,5 +50,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="365dp" />
+
+    <SeekBar
+        android:id="@+id/SKB_volume_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/btn_shutdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关闭计算机"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SKB_volume_change" />
+
+    <Button
+        android:id="@+id/btn_cancel_shutdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消关机"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/SKB_volume_change" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
