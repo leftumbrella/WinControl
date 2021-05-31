@@ -3,6 +3,8 @@
 Controlled::Controlled(QWidget *parent) : QMainWindow(parent){
     ui.setupUi(this);
 
+    this->setWindowIcon(QIcon(":/main/D:/Pictures/Umbrella/icon.ico"));
+
     QTimer* timer_ptr = new QTimer(this);
 
     connect(timer_ptr, &QTimer::timeout, this, &Controlled::FlushNowVolume);

@@ -16,9 +16,6 @@ Net::~Net(){
     //接收数据线程结束
     _isRunRecv = false;
     _t_recv.join();
-
-    //等待线程池结束
-    _TP.join_all();
 }
 
 bool Net::Initialize(unsigned short port_num){
@@ -43,7 +40,6 @@ bool Net::Initialize(unsigned short port_num){
     sockAddr.sin_port = _WINSOCK2API_::htons(port_num);
 
     if (_WINSOCK2API_::bind(_sock_recv, (SOCKADDR*)&sockAddr, sizeof(SOCKADDR)) == SOCKET_ERROR) {
-        std::cout << "bind failed with error " << WSAGetLastError() << std::endl;
         _WINSOCK2API_::closesocket(_sock_recv);
         _WINSOCK2API_::WSACleanup();
         return false;
@@ -103,10 +99,6 @@ void Net::Listen(){
 
 void Net::RecvData(){
     while (_isRunRecv) {
-        if (!_sock_recv) {
-            Sleep(Wait_Net_Time_Ms);
-            continue;
-        }
         char recv_data[Max_Net_Size+1];
         
         int length = _WINSOCK2API_::recv(_sock_send, recv_data, Max_Net_Size, NULL);
@@ -114,7 +106,7 @@ void Net::RecvData(){
             //使用
             recv_data[Max_Net_Size] = '\0';
             //保存当前移动端命令
-            _TP.create_thread(boost::bind(&Net::CommandAnsy, this , std::move(recv_data)));
+            CommandAnsy(recv_data);
         }
     }
 }

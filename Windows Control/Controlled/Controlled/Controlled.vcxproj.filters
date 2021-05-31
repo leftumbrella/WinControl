@@ -67,6 +67,9 @@
     <ClInclude Include="Kernel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Controlled.h">
@@ -89,7 +92,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\Pictures\Umbrella\icon.png">
+    <Image Include="D:\Pictures\Umbrella\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

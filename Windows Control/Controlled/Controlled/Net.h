@@ -57,9 +57,6 @@ private:
 
 	std::mutex _lock_command;
 	std::queue<CmdCore> _command;
-
-	//用于处理耗时操作的线程池
-	boost::thread_group _TP;
 };
 
 #endif

@@ -8,7 +8,7 @@
 #include <memory>
 #include <string>
 //最大包长度
-constexpr std::size_t Max_Net_Size = 512;
+constexpr std::size_t Max_Net_Size = 32;
 
 class CmdCore{
 public:

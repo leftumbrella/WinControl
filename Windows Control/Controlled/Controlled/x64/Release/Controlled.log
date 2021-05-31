@@ -1,7 +1,5 @@
-﻿  Reading Qt configuration (C:/Develop/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/qmake)
-  uic Controlled.ui
-  rcc ..\Controlled.qrc
-  moc Controlled.h
+﻿  CmdCore.cpp
+  Kernel.cpp
   Net.cpp
   WinUtils.cpp
   Controlled.cpp

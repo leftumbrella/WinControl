@@ -118,6 +118,7 @@
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Net.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="WinUtils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +128,7 @@
     <ResourceCompile Include="Controlled.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\Pictures\Umbrella\icon.png" />
+    <Image Include="D:\Pictures\Umbrella\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
