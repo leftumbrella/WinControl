@@ -11,9 +11,13 @@ Controlled::Controlled(QWidget *parent) : QMainWindow(parent){
 
     timer_ptr->start(flush_ms);
 
-    
+    //这个习惯来自于 GTTC.
     Kernel::GetInstance()->Initialize().Run();
 
+    //为状态栏提示当前IP地址
+    QString ip_str = QStringLiteral("当前 IPV4 地址  ");
+    ip_str += QString::fromStdString(WinUtils::GetIpV4());
+    ui.statusBar->showMessage(ip_str);
 
 }
 void Controlled::FlushNowVolume() {

@@ -38,9 +38,6 @@ private:
 
 	void RecvData();
 
-	//辅助函数(获取本机的IPV4地址)
-	std::string GetIpV4() const;
-
 	//分析网络数据字串为具体命令
 	void CommandAnsy(const std::string& cmd_str);
 

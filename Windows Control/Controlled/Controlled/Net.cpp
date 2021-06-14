@@ -36,7 +36,7 @@ bool Net::Initialize(unsigned short port_num){
     _WINSOCK2API_::sockaddr_in sockAddr;
     memset(&sockAddr, 0, sizeof(sockAddr));
     sockAddr.sin_family = AF_INET;
-    sockAddr.sin_addr.s_addr = _WINSOCK2API_::inet_addr(GetIpV4().c_str());
+    sockAddr.sin_addr.s_addr = _WINSOCK2API_::inet_addr(WinUtils::GetIpV4().c_str());
     sockAddr.sin_port = _WINSOCK2API_::htons(port_num);
 
     if (_WINSOCK2API_::bind(_sock_recv, (SOCKADDR*)&sockAddr, sizeof(SOCKADDR)) == SOCKET_ERROR) {
@@ -110,34 +110,6 @@ void Net::RecvData(){
         }
     }
 }
-std::string Net::GetIpV4() const{
-
-    std::string ipv4_str;
-
-    char host_name[256];
-    //获取本机主机名称
-    int iRet;
-    iRet = _WINSOCK2API_::gethostname(host_name, 256);
-    if(iRet != 0){
-        return ipv4_str;
-    }
-    //通过主机名获取到地址信息
-    _WINSOCK2API_::HOSTENT* host = _WINSOCK2API_::gethostbyname(host_name);
-    if(nullptr == host){
-        return ipv4_str;
-    }
-    _WINSOCK2API_::in_addr address;
-    for(int i = 0;; i++){
-        char* p = host->h_addr_list[i];
-        if(NULL == p){
-            break;
-        }
-        memcpy(&(address.S_un.S_addr), p, host->h_length);
-        ipv4_str = _WINSOCK2API_::inet_ntoa(address);
-    }
-    return ipv4_str;
-}
-
 void Net::CommandAnsy(const std::string& cmd_str){
 
     std::vector<std::string> cmd_strs;

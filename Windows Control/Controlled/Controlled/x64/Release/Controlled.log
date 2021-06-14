@@ -1,9 +1,8 @@
-﻿  CmdCore.cpp
+﻿  uic Controlled.ui
+  Controlled.cpp
   Kernel.cpp
   Net.cpp
   WinUtils.cpp
-  Controlled.cpp
   main.cpp
-  qrc_Controlled.cpp
   moc_Controlled.cpp
   Controlled.vcxproj -> C:\Project\Github Projects\WinControl\Windows Control\Controlled\x64\Release\Controlled.exe

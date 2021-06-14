@@ -90,8 +90,6 @@ void Kernel::PCMonitor(){
 			SendVolume();
 		}
 
-
-
 		if (!has_change) {
 			Sleep(100);
 		}
